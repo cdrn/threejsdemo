@@ -48,14 +48,31 @@ scene.add(ambientLight);
 
 camera.position.z = 5;
 
+
+var keys = {
+  left: false,
+  right: false
+}
 //Event listeners for keypress
-document.addEventListener('keypress', (event) => {
-  let keyName = event.key;
+document.addEventListener('keydown', (event) => {
+  const keyName = event.key;
+  console.log(keyName)
   if (keyName === 'a') {
-    cube.position.x -= 1
-  }
+    keys.left = true;
+  } 
   if (keyName === 'd') {
-    cube.position.x += 1
+    keys.right = true;
+  }
+})
+
+document.addEventListener('keyup', (event) => {
+  const keyName = event.key;
+  console.log(keyName)
+  if (keyName === 'a') {
+    keys.left = false;
+  } 
+  if (keyName === 'd') {
+    keys.right = false;
   }
 })
 
@@ -65,7 +82,13 @@ function animate () {
   cube.position.z -= 0.1
   camera.position.z = cube.position.z + 10
   ambientLight.position.z = cube.position.z + 10
-
+  if (keys.left) {
+    cube.position.x -= 0.1
+  }
+  if (keys.right) {
+    cube.position.x += 0.1
+  }
+ 
   renderer.render(scene, camera);
 }
 animate();
