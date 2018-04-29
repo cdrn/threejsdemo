@@ -21,14 +21,12 @@ scene.background = color;
 
 //PLANE
 var plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(500, 500, 100, 100),
-  new THREE.MeshBasicMaterial({ color: 0xffffff, side:THREE.DoubleSide, wireframe: true })
+  new THREE.PlaneGeometry(100, 20000, 100, 100),
+  new THREE.MeshLambertMaterial({ color: 0xffffff, side:THREE.DoubleSide, wireframe: false })
 );
 plane.rotation.x = Math.PI / 2;
 scene.add(plane);
 
-scene.add(plane);
-console.log(plane);
 
 // PLAYER CUBE
 var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -47,7 +45,7 @@ var ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
 // OBSTACLES
-
+a
 // Use this to randgen object positions
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -69,6 +67,10 @@ for (num = 0; num < 30; num++) {
   scene.add(newObs)
 }
 
+// COLLISION
+
+
+// CONTROLS
 var keys = {
   left: false,
   right: false
