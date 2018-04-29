@@ -11,31 +11,36 @@ document.body.appendChild(renderer.domElement);
 
 // Make a nice skybox
 var color = new THREE.Color(0xCCFFFF);
+// Load urls 
+// var urls = [
+// ]
+// cubeTexture = new THREE.CubeTextureLoader().setPath('../threejs/').load(urls);
+
 scene.background = color;
 
 //PLANE
 // A mesh is created from the geometry and material, then added to the scene
 var plane = new THREE.Mesh(
-	new THREE.PlaneGeometry( 500, 500, 100, 100 ),
-	new THREE.MeshLambertMaterial( { color: 0xffffff, wireframe: true } )
+  new THREE.PlaneGeometry(500, 500, 100, 100),
+  new THREE.MeshLambertMaterial({ color: 0xffffff, wireframe: true })
 );
 plane.rotation.x = Math.PI / 2;
-scene.add( plane );
+scene.add(plane);
 
 scene.add(plane);
 console.log(plane);
 
 // PLAYER CUBE
 var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshLambertMaterial({color: 0xFFCCFF});
+var material = new THREE.MeshLambertMaterial({ color: 0xFFCCFF });
 var cube = new THREE.Mesh(geometry, material);
 cube.position.y = 0.5
 scene.add(cube);
 
 
 // LIGHTS
-var light = new THREE.PointLight( 0xff0000, 1, 100 );
-light.position.set( 50, 50, 50 );
+var light = new THREE.PointLight(0xffffff, 1, 0);
+light.position.set(50, 50, 50);
 scene.add(light);
 
 var ambientLight = new THREE.AmbientLight(0x404040);
@@ -59,7 +64,8 @@ function animate () {
   requestAnimationFrame(animate);
   cube.position.z -= 0.1
   camera.position.z = cube.position.z + 10
+  ambientLight.position.z = cube.position.z + 10
 
-	renderer.render(scene, camera);
+  renderer.render(scene, camera);
 }
 animate();
