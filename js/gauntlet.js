@@ -45,7 +45,7 @@ var ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
 // OBSTACLES
-a
+
 // Use this to randgen object positions
 function getRandomInt(min, max) {
   min = Math.ceil(min);
