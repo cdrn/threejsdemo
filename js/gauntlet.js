@@ -1,4 +1,6 @@
 // Application logic goes here
+
+let lose = false // winflag
 var scene = new THREE.Scene();
 
 /*args: FOV(degrees), aspect ratio, near clipping plane, far clipping plane (point which rendering ceases) */
@@ -45,7 +47,6 @@ var ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
 // OBSTACLES
-
 // Use this to randgen object positions
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -56,19 +57,31 @@ function getRandomInt(min, max) {
 var obstacleGeo = new THREE.BoxGeometry(3, 1, 1);
 var obstacleMat = new THREE.MeshLambertMaterial({color: 0xD3D3D3});
 let obstacle = new THREE.Mesh(obstacleGeo, obstacleMat);
-let num;
+let i;
+let numObstacles = 500;
 
 // add n obstacles to the scene qasi randomly
-for (num = 0; num < 30; num++) {
+for (i = 0; i < numObstacles; i++) {
   let newObs = new THREE.Mesh(obstacleGeo, obstacleMat);
   newObs.position.x = getRandomInt(-20, 20)
-  newObs.position.z = getRandomInt(0, -500)
+  newObs.position.z = getRandomInt(0, -1000)
   newObs.position.y = 0.5
   scene.add(newObs)
 }
 
 // COLLISION
-
+const raycaster = new THREE.Raycaster();
+// Set a ray for every direction of the cube
+const rays = [
+  new THREE.Vector3(0, 0, 1),
+  new THREE.Vector3(1, 0, 1),
+  new THREE.Vector3(1, 0, 0),
+  new THREE.Vector3(1, 0, -1),
+  new THREE.Vector3(0, 0, -1),
+  new THREE.Vector3(-1, 0, -1),
+  new THREE.Vector3(-1, 0, 0),
+  new THREE.Vector3(-1, 0, 1)
+];
 
 // CONTROLS
 var keys = {
@@ -101,14 +114,35 @@ function animate () {
   requestAnimationFrame(animate);
   cube.position.z -= 0.1
   camera.position.z = cube.position.z + 10
+  // Follow with ambient light
   ambientLight.position.z = cube.position.z + 10
+
+  // Set movement
   if (keys.left) {
     cube.position.x -= 0.1
   }
   if (keys.right) {
     cube.position.x += 0.1
   }
- 
+
+  // Raycast collision
+  let i;
+  let collisions = [];
+  for (i = 0; i < rays.length; i++) {
+    raycaster.set(cube.position, rays[i])
+    collisions = raycaster.intersectObjects(scene.children)
+    for (ray of collisions) {
+      if (ray.distance <= 0.01){
+        alert('lmao u died')
+        lose = true
+      }
+    }
+  }
+  // console.log(collisions);
+
+
+  //Render the frame
   renderer.render(scene, camera);
 }
+
 animate();
