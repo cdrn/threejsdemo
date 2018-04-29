@@ -39,9 +39,10 @@ scene.add(cube);
 
 
 // LIGHTS
-var light = new THREE.PointLight(0xffffff, 1, 0);
-light.position.set(50, 50, 50);
+let light = new THREE.PointLight(0xffffff, 1, 0);
+light.position.set(50, 50, -100);
 scene.add(light);
+
 
 var ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
@@ -64,7 +65,7 @@ let numObstacles = 500;
 for (i = 0; i < numObstacles; i++) {
   let newObs = new THREE.Mesh(obstacleGeo, obstacleMat);
   newObs.position.x = getRandomInt(-20, 20)
-  newObs.position.z = getRandomInt(0, -1000)
+  newObs.position.z = getRandomInt(-10, -1000)
   newObs.position.y = 0.5
   scene.add(newObs)
 }
@@ -112,7 +113,7 @@ document.addEventListener('keyup', (event) => {
 //create the render loop
 function animate () {
   requestAnimationFrame(animate);
-  cube.position.z -= 0.1
+  cube.position.z -= 0.3
   camera.position.z = cube.position.z + 10
   // Follow with ambient light
   ambientLight.position.z = cube.position.z + 10
@@ -132,7 +133,7 @@ function animate () {
     raycaster.set(cube.position, rays[i])
     collisions = raycaster.intersectObjects(scene.children)
     for (ray of collisions) {
-      if (ray.distance <= 0.01){
+      if (ray.distance <= 0.1){
         alert('lmao u died')
         lose = true
       }
