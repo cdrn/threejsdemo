@@ -17,12 +17,11 @@ scene.background = color;
 // A mesh is created from the geometry and material, then added to the scene
 var plane = new THREE.Mesh(
 	new THREE.PlaneGeometry( 500, 500, 100, 100 ),
-	new THREE.MeshBasicMaterial( { color: 0x222222, wireframe: true } )
+	new THREE.MeshLambertMaterial( { color: 0xffffff, wireframe: true } )
 );
-plane.rotateX(Math.PI/2);
+plane.rotation.x = Math.PI / 2;
 scene.add( plane );
 
-// plane.rotateX( - Math.PI / 2);
 scene.add(plane);
 console.log(plane);
 
@@ -43,6 +42,17 @@ var ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
 camera.position.z = 5;
+
+//Event listeners for keypress
+document.addEventListener('keypress', (event) => {
+  let keyName = event.key;
+  if (keyName === 'a') {
+    cube.position.x -= 1
+  }
+  if (keyName === 'd') {
+    cube.position.x += 1
+  }
+})
 
 //create the render loop
 function animate () {
